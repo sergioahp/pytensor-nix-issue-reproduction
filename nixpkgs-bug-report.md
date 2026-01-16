@@ -36,7 +36,7 @@ pytensor imports setuptools at runtime (not just at build time) in multiple loca
 These imports occur during PyTensor's JIT/C compilation functionality, making setuptools a **runtime dependency**, not merely a build backend requirement.
 
 Upstream pytensor declares `setuptools>=59.0.0` as a runtime dependency:
-https://github.com/pymc-devs/pytensor/blob/main/pyproject.toml#L29
+https://github.com/pymc-devs/pytensor/blob/a314476f233f2c771a1f9d75ddf4959dbb2d5646/pyproject.toml#L50
 
 Without propagating setuptools, `python3.withPackages` environments are missing an import required for normal operation.
 

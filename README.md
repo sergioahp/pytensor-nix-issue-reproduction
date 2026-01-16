@@ -30,7 +30,7 @@ Both imports occur during pytensor's compilation process, making setuptools a re
 ## Root Cause
 
 The upstream pytensor project declares `setuptools>=59.0.0` as a runtime dependency in their `pyproject.toml`:
-https://github.com/pymc-devs/pytensor/blob/main/pyproject.toml
+https://github.com/pymc-devs/pytensor/blob/a314476f233f2c771a1f9d75ddf4959dbb2d5646/pyproject.toml#L50
 
 However, the nixpkgs package does not include this in its `dependencies` or `propagatedBuildInputs`.
 
