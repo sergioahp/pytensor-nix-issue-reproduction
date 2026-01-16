@@ -42,5 +42,4 @@ Add `setuptools` to pytensor's `dependencies` list in nixpkgs.
 
 ## Full Reproduction
 
-See: https://github.com/[your-username]/pytensor-nix-issue-reproduction
-(or include the flake.nix and reproduce_pytensor_only.py from this repo)
+See: https://github.com/sergioahp/pytensor-nix-issue-reproduction
