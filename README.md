@@ -76,7 +76,18 @@ The script should run successfully without any import errors.
 
 ## Workaround
 
-Override pytensor to include setuptools in dependencies:
+Override pytensor to include setuptools in `propagatedBuildInputs`:
+
+```nix
+(python3.withPackages (ps: with ps; [
+  (pytensor.overridePythonAttrs (old: {
+    propagatedBuildInputs = (old.propagatedBuildInputs or []) ++ [ ps.setuptools ];
+    doCheck = false;  # Optional: skip tests to speed up build
+  }))
+]))
+```
+
+Or if using via pymc:
 
 ```nix
 (python3.withPackages (ps: with ps; [
@@ -84,7 +95,8 @@ Override pytensor to include setuptools in dependencies:
     dependencies = builtins.map (dep:
       if dep.pname or "" == "pytensor" then
         dep.overridePythonAttrs (oldPytensor: {
-          dependencies = (oldPytensor.dependencies or []) ++ [ ps.setuptools ];
+          propagatedBuildInputs = (oldPytensor.propagatedBuildInputs or []) ++ [ ps.setuptools ];
+          doCheck = false;
         })
       else dep
     ) (old.dependencies or []);
@@ -94,4 +106,6 @@ Override pytensor to include setuptools in dependencies:
 
 ## Fix Required
 
-The nixpkgs `pytensor` package definition should add `setuptools` to its `dependencies` list to match the upstream project's requirements.
+The nixpkgs `pytensor` package definition should add `setuptools` to its `propagatedBuildInputs` list.
+
+**Why `propagatedBuildInputs`**: setuptools is imported at runtime when PyTensor exercises core functionality (JIT compilation), not just during build. In nixpkgs terms, `propagatedBuildInputs` is for Python packages that must be present at runtime and importable when the package is used.
